@@ -24,11 +24,13 @@ def place_coin():
    coin.y = randint(20, (HEIGHT - 20))
 
 def time_up():
-   pass
+   global game_over
+   game_over = True
 
 def update():
    pass   
 
+clock.schedule(time_up, 7.0)
 place_coin()
 
 pgzrun.go()
