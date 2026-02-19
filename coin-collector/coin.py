@@ -55,6 +55,7 @@ def update():
     coin_collected = fox.colliderect(coin)
  
     if coin_collected:
+       '''time_left = time_left + 2'''
        score = score + 10
        place_coin()
 

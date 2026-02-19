@@ -1,1 +1,42 @@
-pgzero
+C'est une excellente idée ! Pour tester si tu as bien maîtrisé les mouvements au clavier (de ton jeu Coin Collector) et les clics de souris (de ton jeu Shoot the Fruit), je te propose un défi qui mélange les deux.
+
+Voici ton nouveau projet : "L'Invasion des Oranges".
+
+Le Concept du Jeu
+Tu contrôles un personnage qui doit éviter des oranges qui tombent du ciel, tout en essayant de les détruire avec la souris avant qu'elles ne touchent le sol.
+
+Les notions à utiliser :
+Variables globales : Pour le score et le game_over.
+
+Mouvements (Update) : Déplacer ton personnage de gauche à droite avec les flèches du clavier.
+
+Collision Souris (on_mouse_down) : Cliquer sur une orange pour la faire disparaître.
+
+Collision Acteurs (colliderect) : Si une orange touche ton personnage, c'est perdu !
+
+Random : Pour faire apparaître les oranges à des endroits différents en haut de l'écran.
+
+Ton plan d'action (Étape par étape) :
+Étape 1 : Le Pixel Art (Piskel)
+
+Crée un nouveau sprite pour ton personnage (un petit robot ou un panier).
+
+Réutilise ou crée une nouvelle Orange (n'oublie pas de l'exporter en taille X2 ou X4).
+
+Crée tes dossiers : un nouveau dossier orange_invasion avec son sous-dossier images.
+
+Étape 2 : La structure du code
+
+Crée un fichier main.py.
+
+Déclare tes deux acteurs : panier (en bas de l'écran) et orange (qui commence en haut).
+
+Dans update(), fais tomber l'orange : orange.y = orange.y + 3.
+
+Ajoute la condition : si l'orange dépasse le bas de l'écran (HEIGHT), elle réapparaît en haut à une position x aléatoire.
+
+Étape 3 : Le défi final
+
+Ajoute le score : +10 points quand on clique sur l'orange.
+
+Ajoute la défaite : si panier.colliderect(orange), alors game_over = True.
