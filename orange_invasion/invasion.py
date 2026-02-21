@@ -29,6 +29,11 @@ def update ():
     orange.y += 2
     if orange.y > HEIGHT or orange.colliderect(cowboy):
         quit ()
+    
+    if keyboard.left :
+        cowboy.x -= 2
+    elif keyboard.right :
+        cowboy.x += 2
 
 
 def on_mouse_down ():
