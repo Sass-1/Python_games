@@ -1,5 +1,9 @@
 from random import randint
 import pgzrun
+import os
+
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 WIDTH = 600
 HEIGHT = 600
 score = 0
@@ -51,6 +55,16 @@ def update():
         fox.y = fox.y - 4
     elif keyboard.down:
         fox.y = fox.y + 4
+        
+    if fox.x < 20:
+        fox.x = 20
+    elif fox.x > 580:
+        fox.x = 580
+    elif fox.y < 20:
+        fox.y = 20
+    elif fox.y > 580:
+        fox.y = 580
+    
         
     coin_collected = fox.colliderect(coin)
  

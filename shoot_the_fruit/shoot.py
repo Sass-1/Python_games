@@ -1,5 +1,9 @@
 from random import randint
 import pgzrun
+import os
+
+os.environ['SDL_VIDEO_CENTERED'] = '1'
+
 count = 0
 fruits = ["kiwi", "apple"]
 

@@ -18,6 +18,7 @@ cowboy.pos = 200, 350
 bullet = Actor("bullet")
 bullet.active = False
 
+
 def draw ():
     screen.fill((100, 200, 100))
     cowboy.draw()
@@ -26,13 +27,13 @@ def draw ():
     
     
 def update ():
-    orange.y += 2
+   ''' orange.y += 2
     if orange.y > HEIGHT or orange.colliderect(cowboy):
-        quit ()
+        quit ()'''
     
-    if keyboard.left :
+    if keyboard.left:
         cowboy.x -= 2
-    elif keyboard.right :
+    elif keyboard.right:
         cowboy.x += 2
     
     if cowboy.x < 20 :
