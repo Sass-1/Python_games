@@ -34,6 +34,11 @@ def update ():
         cowboy.x -= 2
     elif keyboard.right :
         cowboy.x += 2
+    
+    if cowboy.x < 20 :
+        cowboy.x = 20
+    elif cowboy.x > 380 :
+        cowboy.x = 380
 
 
 def on_mouse_down ():
