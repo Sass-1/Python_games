@@ -13,7 +13,7 @@ bullet = Actor("bullet")
 bullet.active = False
 
 def draw ():
-    screen.clear()
+    screen.fill((100, 200, 100))
     cowboy.draw()
 
 pgzrun.go()
