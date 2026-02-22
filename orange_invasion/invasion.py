@@ -59,7 +59,8 @@ def update ():
         vitesse_orange = 4.5
 
 def on_mouse_down (pos):
-    if not bullet.active:  
+    if not bullet.active:
+        sounds.shot.play()
         bullet.x = cowboy.x
         bullet.y = cowboy.y -20
         bullet.active = True
