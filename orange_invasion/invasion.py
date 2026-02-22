@@ -26,14 +26,14 @@ def draw ():
     screen.blit("background", (0, 0))
     cowboy.draw()
     orange.draw()
-    screen.draw.text("Score: " + str(score), color="black", topleft=(10, 10))
+    screen.draw.text("Score: " + str(score), color="white", topleft=(10, 10))
     
     if bullet.active:
         bullet.draw()
     
     if game_over:
-        screen.fill("blue")
-        screen.draw.text("Final Score: " + str(score), topleft=(10, 10), fontsize=60)
+        screen.blit("background", (0, 0))
+        screen.draw.text("Final Score: " + str(score), center=(WIDTH // 2, HEIGHT // 2), fontsize=60)
     
 def update ():
     global score, vitesse_orange, game_over
@@ -46,9 +46,9 @@ def update ():
             game_over = True
     
     if keyboard.left:
-        cowboy.x -= 5
+        cowboy.x -= 7
     elif keyboard.right:
-        cowboy.x += 5
+        cowboy.x += 7
         
     if cowboy.x < 20 :
         cowboy.x = 20
@@ -73,12 +73,10 @@ def update ():
         orange.pos = randint(10,550),0
    
     if score == 50:
-        vitesse_orange = 3.5
+        vitesse_orange = 2.5
     elif score == 90:
-        vitesse_orange = 4.5
+        vitesse_orange = 3.5
 
-def on_mouse_down (pos):
-    pass
 
 
 pgzrun.go()
