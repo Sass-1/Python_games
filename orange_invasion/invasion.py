@@ -41,7 +41,11 @@ def update ():
     global score, vitesse_orange, game_over
     orange.y += vitesse_orange
     if orange.y > HEIGHT or orange.colliderect(cowboy):
-        game_over = True
+        if not game_over:
+            sounds.music.stop()
+            sounds.game_over_sound.play()
+            sounds.game_over.play()
+            game_over = True
     
     if keyboard.left:
         cowboy.x -= 4
