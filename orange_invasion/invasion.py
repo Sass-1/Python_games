@@ -11,6 +11,7 @@ HEIGHT = 600
 
 score = 0
 vitesse_orange = 2
+game_over = False
 
 orange = Actor("orange")
 orange.pos = randint(10,550),0
@@ -20,6 +21,7 @@ cowboy.pos = 300, 550
 
 bullet = Actor("bullet")
 bullet.active = False
+
 sounds.music.play(-1)
 
 def draw ():
@@ -27,14 +29,19 @@ def draw ():
     cowboy.draw()
     orange.draw()
     screen.draw.text("Score: " + str(score), color="black", topleft=(10, 10))
+    
     if bullet.active:
         bullet.draw()
     
+    if game_over:
+        screen.fill("blue")
+        screen.draw.text("Final Score: " + str(score), topleft=(10, 10), fontsize=60)
+    
 def update ():
-    global score, vitesse_orange
+    global score, vitesse_orange, game_over
     orange.y += vitesse_orange
     if orange.y > HEIGHT or orange.colliderect(cowboy):
-        quit ()
+        game_over = True
     
     if keyboard.left:
         cowboy.x -= 4
