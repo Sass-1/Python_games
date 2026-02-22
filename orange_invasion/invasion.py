@@ -4,16 +4,17 @@ import os
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
-WIDTH = 400
-HEIGHT = 400
+WIDTH = 600
+HEIGHT = 600
 
 score = 0
+vitesse_orange = 2
 
 orange = Actor("orange")
-orange.pos = randint(10,350),0
+orange.pos = randint(10,550),0
     
 cowboy = Actor("cowboy")
-cowboy.pos = 200, 350
+cowboy.pos = 300, 550
 
 bullet = Actor("bullet")
 bullet.active = False
@@ -28,19 +29,19 @@ def draw ():
         bullet.draw()
     
 def update ():
-    global score
-    orange.y += 0.5
+    global score, vitesse_orange
+    orange.y += vitesse_orange
     if orange.y > HEIGHT or orange.colliderect(cowboy):
         quit ()
     
     if keyboard.left:
-        cowboy.x -= 2
+        cowboy.x -= 4
     elif keyboard.right:
-        cowboy.x += 2 
+        cowboy.x += 4
     if cowboy.x < 20 :
         cowboy.x = 20
-    elif cowboy.x > 380 :
-        cowboy.x = 380
+    elif cowboy.x > 580 :
+        cowboy.x = 580
     
     if bullet.active:
         bullet.y -= 4
@@ -50,8 +51,12 @@ def update ():
     elif bullet.colliderect(orange):
         score += 10
         bullet.active = False
-        orange.pos = randint(10,350),0
-
+        orange.pos = randint(10,550),0
+   
+    if score == 50:
+        vitesse_orange = 3.5
+    elif score == 90:
+        vitesse_orange = 4.5
 
 def on_mouse_down (pos):
     if not bullet.active:  
