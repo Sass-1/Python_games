@@ -7,8 +7,6 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 WIDTH = 600
 HEIGHT = 600
 
- 
-
 score = 0
 vitesse_orange = 2
 game_over = False
@@ -25,7 +23,7 @@ bullet.active = False
 sounds.music.play(-1)
 
 def draw ():
-    screen.fill((100, 200, 100))
+    screen.blit("background", (0, 0))
     cowboy.draw()
     orange.draw()
     screen.draw.text("Score: " + str(score), color="black", topleft=(10, 10))
@@ -48,9 +46,10 @@ def update ():
             game_over = True
     
     if keyboard.left:
-        cowboy.x -= 4
+        cowboy.x -= 5
     elif keyboard.right:
-        cowboy.x += 4
+        cowboy.x += 5
+        
     if cowboy.x < 20 :
         cowboy.x = 20
     elif cowboy.x > 580 :
