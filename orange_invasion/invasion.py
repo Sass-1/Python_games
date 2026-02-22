@@ -7,6 +7,8 @@ os.environ['SDL_VIDEO_CENTERED'] = '1'
 WIDTH = 600
 HEIGHT = 600
 
+ 
+
 score = 0
 vitesse_orange = 2
 
@@ -18,7 +20,7 @@ cowboy.pos = 300, 550
 
 bullet = Actor("bullet")
 bullet.active = False
-
+sounds.music.play(-1)
 
 def draw ():
     screen.fill((100, 200, 100))
@@ -49,6 +51,7 @@ def update ():
     if bullet.y < 0:
         bullet.active = False
     elif bullet.colliderect(orange):
+        '''sounds.explosion.play()'''
         score += 10
         bullet.active = False
         orange.pos = randint(10,550),0
