@@ -55,6 +55,12 @@ def update ():
         cowboy.x = 20
     elif cowboy.x > 580 :
         cowboy.x = 580
+        
+    if keyboard.space and not bullet.active and not game_over:
+        sounds.shot.play()
+        bullet.x = cowboy.x
+        bullet.y = cowboy.y -20
+        bullet.active = True    
     
     if bullet.active:
         bullet.y -= 4
@@ -73,11 +79,7 @@ def update ():
         vitesse_orange = 4.5
 
 def on_mouse_down (pos):
-    if not bullet.active:
-        sounds.shot.play()
-        bullet.x = cowboy.x
-        bullet.y = cowboy.y -20
-        bullet.active = True
+    pass
 
 
 pgzrun.go()
