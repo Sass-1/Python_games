@@ -17,6 +17,10 @@ orange.pos = randint(10,550),0
 cowboy = Actor("cowboy")
 cowboy.pos = 300, 550
 
+cowboy1 = Actor("cowboy_mort")
+cowboy1.pos = 320, 530 
+
+
 bullet = Actor("bullet")
 bullet.active = False
 
@@ -31,9 +35,10 @@ def draw ():
     if bullet.active:
         bullet.draw()
     
-    if game_over:
+    if game_over :
         screen.blit("background", (0, 0))
         screen.draw.text("Final Score: " + str(score), center=(WIDTH // 2, HEIGHT // 2), fontsize=60)
+        cowboy1.draw()
     
 def update ():
     global score, vitesse_orange, game_over
@@ -62,7 +67,7 @@ def update ():
         bullet.active = True    
     
     if bullet.active:
-        bullet.y -= 4
+        bullet.y -= 8
         
     if bullet.y < 0:
         bullet.active = False
@@ -81,7 +86,7 @@ def update ():
     elif score == 170:
         vitesse_orange = 4
     elif score == 210 :
-        vitess_orange = 4.5
+        vitesse_orange = 4.5
 
 
 
