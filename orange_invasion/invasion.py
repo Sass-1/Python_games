@@ -75,7 +75,13 @@ def update ():
     if score == 50:
         vitesse_orange = 2.5
     elif score == 90:
+        vitesse_orange = 3
+    elif score == 130:
         vitesse_orange = 3.5
+    elif score == 170:
+        vitesse_orange = 4
+    elif score == 210 :
+        vitess_orange = 4.5
 
 
 
