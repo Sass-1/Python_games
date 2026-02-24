@@ -26,6 +26,14 @@ bullet.active = False
 
 sounds.music.play(-1)
 
+def reset_game ():
+    global game_over,score,vitesse_orange
+    score = 0
+    game_over = False
+    cowboy.pos = 300, 550
+    orange.pos = randint(10,550),0
+    vitesse_orange = 2
+
 def draw ():
     screen.blit("background", (0, 0))
     cowboy.draw()
@@ -37,7 +45,8 @@ def draw ():
     
     if game_over :
         screen.blit("background", (0, 0))
-        screen.draw.text("Final Score: " + str(score), center=(WIDTH // 2, HEIGHT // 2), fontsize=60)
+        screen.draw.text("Final Score: " + str(score), center=(300, 280), fontsize=60)
+        screen.draw.text("Press R to restart ", color="white", center=(310, 330) )
         cowboy1.draw()
     
 def update ():
@@ -49,6 +58,12 @@ def update ():
             sounds.game_over_sound.play()
             sounds.game_over.play()
             game_over = True
+            
+    if game_over:
+        if keyboard.r:
+            reset_game()
+            sounds.music.play(-1) 
+        return        
     
     if keyboard.left:
         cowboy.x -= 7
@@ -56,9 +71,9 @@ def update ():
         cowboy.x += 7
         
     if cowboy.x < 20 :
-        cowboy.x = 20
-    elif cowboy.x > 580 :
         cowboy.x = 580
+    elif cowboy.x > 580 :
+        cowboy.x = 20
         
     if keyboard.space and not bullet.active and not game_over:
         sounds.shot.play()
@@ -67,7 +82,7 @@ def update ():
         bullet.active = True    
     
     if bullet.active:
-        bullet.y -= 8
+        bullet.y -= 10
         
     if bullet.y < 0:
         bullet.active = False
