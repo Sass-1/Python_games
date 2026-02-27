@@ -10,6 +10,7 @@ HEIGHT = 600
 score = 0
 vitesse_orange = 2
 game_over = False
+compt_heart = 0
 
 orange = Actor("orange")
 orange.pos = randint(10,550),0
@@ -22,12 +23,16 @@ cowboy1.pos = 320, 530
 
 heart3 = Actor("heart3")
 heart3.pos = 590, 20
+heart3.active = True
 
 heart2 = Actor("heart2")
 heart2.pos = 560, 20
+heart2.active = True
 
 heart1 = Actor("heart1")
 heart1.pos = 530, 20
+heart1.active = True
+
 
 bullet = Actor("bullet")
 bullet.active = False
@@ -44,9 +49,14 @@ def reset_game ():
 
 def draw ():
     screen.blit("background", (0, 0))
-    heart3.draw()
-    heart2.draw()
-    heart1.draw()
+    
+    if heart3.active :
+        heart3.draw()
+    if heart2.active :
+        heart2.draw()
+    if heart1.active :
+        heart1.draw()
+    
     cowboy.draw()
     orange.draw()
     screen.draw.text("Score: " + str(score), color="white", topleft=(10, 10))
@@ -61,10 +71,18 @@ def draw ():
         cowboy1.draw()
     
 def update ():
-    global score, vitesse_orange, game_over
+    global score, vitesse_orange, game_over, compt_heart
     orange.y += vitesse_orange
     if orange.y > HEIGHT or orange.colliderect(cowboy):
-        if not game_over:
+        compt_heart += 1
+        orange.pos = randint(10,550), 0
+        if compt_heart == 1:
+            heart3.active = False
+        if compt_heart == 2:
+            heart2.active = False
+        if compt_heart == 3:
+            heart1.active = False    
+            #if not game_over:
             sounds.music.stop()
             sounds.game_over_sound.play()
             sounds.game_over.play()
