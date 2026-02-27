@@ -62,6 +62,8 @@ def update ():
     if game_over:
         if keyboard.r:
             reset_game()
+            sounds.game_over_sound.stop()
+            sounds.game_over.stop()
             sounds.music.play(-1) 
         return        
     
@@ -87,12 +89,12 @@ def update ():
     if bullet.y < 0:
         bullet.active = False
     elif bullet.colliderect(orange):
-        '''sounds.explosion.play()'''
+        vitesse_orange += 0.1
         score += 10
         bullet.active = False
         orange.pos = randint(10,550),0
    
-    if score == 50:
+    '''if score == 50:
         vitesse_orange = 2.5
     elif score == 90:
         vitesse_orange = 3
@@ -101,7 +103,7 @@ def update ():
     elif score == 170:
         vitesse_orange = 4
     elif score == 210 :
-        vitesse_orange = 4.5
+        vitesse_orange = 4.5'''
 
 
 
