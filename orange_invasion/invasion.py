@@ -20,6 +20,14 @@ cowboy.pos = 300, 550
 cowboy1 = Actor("cowboy_mort")
 cowboy1.pos = 320, 530 
 
+heart3 = Actor("heart3")
+heart3.pos = 590, 20
+
+heart2 = Actor("heart2")
+heart2.pos = 560, 20
+
+heart1 = Actor("heart1")
+heart1.pos = 530, 20
 
 bullet = Actor("bullet")
 bullet.active = False
@@ -36,6 +44,9 @@ def reset_game ():
 
 def draw ():
     screen.blit("background", (0, 0))
+    heart3.draw()
+    heart2.draw()
+    heart1.draw()
     cowboy.draw()
     orange.draw()
     screen.draw.text("Score: " + str(score), color="white", topleft=(10, 10))
