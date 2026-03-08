@@ -1,9 +1,12 @@
+import asyncio
 from random import randint
 import pgzrun
 import os
 
 os.environ['SDL_VIDEO_CENTERED'] = '1'
 
+TITLE = "Orange Invasion"
+ICON = "images/my_icon.png"
 WIDTH = 600
 HEIGHT = 600
 
@@ -37,7 +40,7 @@ heart1.active = True
 bullet = Actor("bullet")
 bullet.active = False
 
-sounds.music.play(-1)
+
 
 def reset_game ():
     global game_over,score,vitesse_orange
@@ -69,6 +72,7 @@ def draw ():
         screen.draw.text("Final Score: " + str(score), center=(300, 280), fontsize=60)
         screen.draw.text("Press R to restart ", color="white", center=(310, 330) )
         cowboy1.draw()
+    
     
 def update ():
     global score, vitesse_orange, game_over, compt_heart
@@ -136,4 +140,17 @@ def update ():
 
 
 
+async def main():
+    # On lance la musique ici, au démarrage de la fonction asynchrone
+    try:
+        sounds.music.play(-1)
+    except:
+        pass # Évite le crash si l'utilisateur n'a pas encore cliqué
+
+    while True:
+        # On ne met PAS pgzrun.go() ici, on laisse Pygbag gérer l'affichage
+        await asyncio.sleep(0)
+
+# Pygbag a besoin de pgzrun.go() MAIS il doit être appelé d'une manière spéciale
+# pour que le moteur sache qu'il est sur le Web.
 pgzrun.go()
