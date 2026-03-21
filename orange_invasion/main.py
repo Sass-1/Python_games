@@ -273,16 +273,24 @@ def draw_bg_tint():
 # =============================================================================
 # TOUCH BUTTONS
 # =============================================================================
+# =============================================================================
+# TOUCH / SWIPE CONTROLS (mobile)
+# =============================================================================
 touch_left  = False
 touch_right = False
 touch_shoot = False
 
-BTN_SIZE      = 80
-BTN_Y         = HEIGHT - BTN_SIZE - 10
-btn_left      = pygame.Rect(10,         BTN_Y, BTN_SIZE, BTN_SIZE)
-btn_right     = pygame.Rect(100,        BTN_Y, BTN_SIZE, BTN_SIZE)
-btn_shoot     = pygame.Rect(WIDTH - 90, BTN_Y, BTN_SIZE, BTN_SIZE)
-btn_pause_mob = pygame.Rect(WIDTH//2 - 35, BTN_Y, 70, BTN_SIZE)
+# Swipe tracking
+swipe_start_x   = None
+swipe_start_y   = None
+touch_finger_x  = None  # current finger X for live movement
+SWIPE_THRESHOLD = 8     # pixels before considered a swipe
+
+# Pause button (mobile only — small top-right corner)
+btn_pause_mob = pygame.Rect(WIDTH - 60, 10, 50, 40)
+
+def draw_pause_btn_mobile():
+    draw_btn_generic(btn_pause_mob, "II")
 btn_restart   = pygame.Rect(WIDTH//2 - 80, 430, 160, 55)
 
 def draw_btn_generic(rect, label, pressed=False, color_pressed=(255,255,255,130),
@@ -296,10 +304,11 @@ def draw_btn_generic(rect, label, pressed=False, color_pressed=(255,255,255,130)
     screen.blit(text, text.get_rect(center=rect.center))
 
 def draw_touch_buttons():
-    draw_btn_generic(btn_left,      "<",    touch_left)
-    draw_btn_generic(btn_right,     ">",    touch_right)
-    draw_btn_generic(btn_shoot,     "FIRE", touch_shoot)
-    draw_btn_generic(btn_pause_mob, "II")
+    # Just show the pause button + a small swipe hint at the bottom
+    draw_pause_btn_mobile()
+    hint = font_score.render("Swipe to move  |  Tap cowboy to shoot", True, (200, 200, 200))
+    hint.set_alpha(140)
+    screen.blit(hint, hint.get_rect(center=(WIDTH//2, HEIGHT - 18)))
 
 def draw_restart_btn():
     surf = pygame.Surface((160, 55), pygame.SRCALPHA)
@@ -330,7 +339,7 @@ def draw_difficulty_screen():
         screen.blit(hint, hint.get_rect(center=(WIDTH//2, 530)))
     if high_score > 0:
         hs = font_score.render("Best Score: " + str(high_score), True, (255, 220, 100))
-        screen.blit(hs, hs.get_rect(center=(WIDTH//2, 540 if not is_mobile else 540)))
+        screen.blit(hs, hs.get_rect(center=(WIDTH//2, 560 if not is_mobile else 530)))
 
     def draw_diff_btn(rect, label, color):
         s = pygame.Surface((rect.width, rect.height), pygame.SRCALPHA)
@@ -604,6 +613,7 @@ async def main():
     global game_state, difficulty
     global countdown_val, countdown_timer
     global touch_left, touch_right, touch_shoot
+    global swipe_start_x, swipe_start_y, touch_finger_x
 
     resume_rect = pygame.Rect(WIDTH//2 - 80, HEIGHT//2 + 20, 160, 55)
 
@@ -660,14 +670,43 @@ async def main():
 
                 elif game_state == STATE_PLAYING:
                     if is_mobile:
-                        if btn_left.collidepoint(pos):      touch_left  = True
-                        if btn_right.collidepoint(pos):     touch_right = True
-                        if btn_shoot.collidepoint(pos):     touch_shoot = True
-                        if btn_pause_mob.collidepoint(pos): game_state  = STATE_PAUSED
+                        # Pause button
+                        if btn_pause_mob.collidepoint(pos):
+                            game_state = STATE_PAUSED
+                        else:
+                            # Start swipe tracking
+                            swipe_start_x  = pos[0]
+                            swipe_start_y  = pos[1]
+                            touch_finger_x = pos[0]
+                            touch_left     = False
+                            touch_right    = False
+
+            if event.type == pygame.MOUSEMOTION and is_mobile and swipe_start_x is not None:
+                touch_finger_x = event.pos[0]
+                dx = touch_finger_x - swipe_start_x
+                if dx < -SWIPE_THRESHOLD:
+                    touch_left  = True
+                    touch_right = False
+                elif dx > SWIPE_THRESHOLD:
+                    touch_right = True
+                    touch_left  = False
+                else:
+                    touch_left  = False
+                    touch_right = False
 
             if event.type == pygame.MOUSEBUTTONUP and is_mobile:
-                touch_left  = False
-                touch_right = False
+                if swipe_start_x is not None and game_state == STATE_PLAYING:
+                    dx = event.pos[0] - swipe_start_x
+                    dy = event.pos[1] - swipe_start_y
+                    dist = math.sqrt(dx*dx + dy*dy)
+                    # Tap on cowboy = shoot
+                    if dist < 20 and cowboy.rect.collidepoint(event.pos):
+                        touch_shoot = True
+                swipe_start_x  = None
+                swipe_start_y  = None
+                touch_finger_x = None
+                touch_left     = False
+                touch_right    = False
 
         # ── STATE MACHINE ──
         if game_state == STATE_DIFFICULTY:
